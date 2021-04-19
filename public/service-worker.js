@@ -3,7 +3,7 @@ const DATA_CACHE_NAME = "data-cache-v1";
 const APP_PREFIX = "my-site-cache-";
 
 const FILES_TO_CACHE = [
-    "/",
+    //"/",
     "/db.js",
     "/manifest.json",
     "/index.js",

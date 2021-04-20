@@ -70,7 +70,7 @@ function checkDatabase() {
         })
         .then(() => {
             // Open another transaction with the ability to read and write
-            transaction = db.transaction(["pending"], 'readwrite');
+            const transaction = db.transaction(["pending"], 'readwrite');
 
             // Assign the current store to a variable
             const store = transaction.objectStore("pending");

@@ -18,6 +18,29 @@ request.onerror = function (e) {
   console.log(`Woops! ${e.target.errorCode}`);
 };
 
+request.onsuccess = ({ target }) => {
+  console.log('success');
+  db = target.result;
+
+  // Check if app is online before reading from db
+  if (navigator.onLine) {
+    console.log('Backend online! 🗄️');
+    checkDatabase();
+  }
+};
+
+const saveRecord = (record) => {
+  console.log('Save record invoked');
+  // Create a transaction on the db with readwrite access
+  const transaction = db.transaction(["pending"], 'readwrite');
+
+  // Access your BudgetStore object store
+  const store = transaction.objectStore("pending");
+
+  // Add record to your store with add method.
+  store.add(record);
+};
+
 function checkDatabase() {
   console.log('check db invoked');
 
@@ -59,30 +82,5 @@ function checkDatabase() {
         });
     }
   };
-}
-
-request.onsuccess = ({ target }) => {
-  console.log('success');
-  db = target.result;
-
-  // Check if app is online before reading from db
-  if (navigator.onLine) {
-    console.log('Backend online! 🗄️');
-    checkDatabase();
-  }
-};
-
-const saveRecord = (record) => {
-  console.log('Save record invoked');
-  // Create a transaction on the db with readwrite access
-  const transaction = db.transaction(["pending"], 'readwrite');
-
-  // Access your BudgetStore object store
-  const store = transaction.objectStore("pending");
-
-  // Add record to your store with add method.
-  store.add(record);
-};
-
-// Listen for app coming back online
+} // Listen for app coming back online
 window.addEventListener('online', checkDatabase);
